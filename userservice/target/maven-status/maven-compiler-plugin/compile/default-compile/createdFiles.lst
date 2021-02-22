@@ -1,0 +1,10 @@
+com\user\application\userservice\data\UserData.class
+com\user\application\userservice\UserserviceApplication.class
+com\user\application\userservice\controller\UserController.class
+com\user\application\userservice\facade\impl\UserFacadeImpl.class
+com\user\application\userservice\dao\impl\UserDaoImpl.class
+com\user\application\userservice\dao\UserDao.class
+com\user\application\userservice\facade\UserFacade.class
+com\user\application\userservice\models\UserModel.class
+com\user\application\userservice\services\impl\UserServicesImpl.class
+com\user\application\userservice\services\UserServices.class
