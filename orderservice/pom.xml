@@ -39,6 +39,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream</artifactId>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/io.opentracing.contrib/opentracing-spring-web-starter -->
+<dependency>
+    <groupId>io.opentracing.contrib</groupId>
+    <artifactId>opentracing-spring-web-starter</artifactId>
+    <version>4.1.0</version>
+</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
