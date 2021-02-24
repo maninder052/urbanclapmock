@@ -3,6 +3,8 @@ package com.order.orderservice.facade.impl;
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -19,7 +21,7 @@ import com.order.ordersevice.facade.EventNotificationFacade;
 
 @Service
 public class EventNotificationFacadeImpl implements EventNotificationFacade {
-
+	private static final Logger LOG = LoggerFactory.getLogger(EventNotificationFacadeImpl.class);
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
 
@@ -69,8 +71,10 @@ public class EventNotificationFacadeImpl implements EventNotificationFacade {
 	public String getMessageForUser(final String orderNumber) {
 		final Boolean found = Arrays.asList(userNotification.split(" ")).contains(orderNumber);
 		if (found) {
+			LOG.info("user notification is found");
 			return userNotification;
 		} else {
+			LOG.info("user notification is not found");
 			return "your request is still in pending state or enter correct order code";
 		}
 	}
@@ -79,6 +83,7 @@ public class EventNotificationFacadeImpl implements EventNotificationFacade {
 	public void publishMessage(final String orderNumber, final String accountCode) {
 		String json="";
 		final String url = "provider/info?accountCode=" + accountCode;
+		LOG.info("url is"+url);
 		InstanceInfo instance = eurekaClient.getNextServerFromEureka("providerservice", false);
 		ResponseEntity<ServiceProviderDTO> response = restTemplate.getForEntity(instance.getHomePageUrl() + url,
 				ServiceProviderDTO.class);
@@ -87,6 +92,7 @@ public class EventNotificationFacadeImpl implements EventNotificationFacade {
 			json  = mapper.writeValueAsString(response.getBody());
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
+			LOG.info("response is null");
 			e.printStackTrace();
 		}
 		if (Objects.nonNull(response) && Objects.nonNull(response.getBody())) {
