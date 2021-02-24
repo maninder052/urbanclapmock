@@ -1,0 +1,6 @@
+FROM java:8-jdk
+RUN mkdir /app
+WORKDIR /app
+COPY target/apigateway-0.0.1-SNAPSHOT.jar /app
+EXPOSE 9999
+ENTRYPOINT ["java", "-jar", "apigateway-0.0.1-SNAPSHOT.jar"]
