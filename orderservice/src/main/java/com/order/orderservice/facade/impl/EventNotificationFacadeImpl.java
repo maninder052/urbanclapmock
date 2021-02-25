@@ -81,22 +81,27 @@ public class EventNotificationFacadeImpl implements EventNotificationFacade {
 
 	@Override
 	public void publishMessage(final String orderNumber, final String accountCode) {
-		String json="";
+		String json = "";
 		final String url = "provider/info?accountCode=" + accountCode;
-		LOG.info("url is"+url);
+		LOG.info("url is" + url);
+		final Boolean validOrder = Arrays.asList(serviceNotification.split(" ")).contains(orderNumber);
+		if (!validOrder) {
+			throw new NullPointerException("order code is invalid");
+		}
 		InstanceInfo instance = eurekaClient.getNextServerFromEureka("providerservice", false);
 		ResponseEntity<ServiceProviderDTO> response = restTemplate.getForEntity(instance.getHomePageUrl() + url,
 				ServiceProviderDTO.class);
 		final ObjectMapper mapper = new ObjectMapper();
 		try {
-			json  = mapper.writeValueAsString(response.getBody());
+			json = mapper.writeValueAsString(response.getBody());
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			LOG.info("response is null");
-			e.printStackTrace();
+			throw new NullPointerException("Invalid account");
 		}
 		if (Objects.nonNull(response) && Objects.nonNull(response.getBody())) {
-			this.kafkaTemplate.send(ORDER, USERMESSAGE + "for : "+orderNumber+" and service Provider details are : "+json);
+			this.kafkaTemplate.send(ORDER,
+					USERMESSAGE + "for : " + orderNumber + " and service Provider details are : " + json);
 		}
 	}
 }

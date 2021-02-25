@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,15 +43,17 @@ public class ProviderServiceController {
 
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
 	public ServicerProviderData getProviderDetails(@RequestParam(required = true) final String accountCode) {
-		
-    return serviceProviderFacade.getProviderDetail(accountCode);
+
+		return serviceProviderFacade.getProviderDetail(accountCode);
 	}
-	
 
 	@PostMapping(value = "/service")
-	public String serviceAccept(@RequestParam(required = true) String orderCode,@RequestParam(required = true) String accountCode) {
-		
-		return serviceProviderFacade.serviceAccept(orderCode,accountCode);
+	public String serviceAccept(@RequestParam(required = true) String orderCode,
+			@RequestParam(required = true) String accountCode) {
+		if (StringUtils.isNotEmpty(accountCode) && StringUtils.isNotEmpty(orderCode)) {
+			return serviceProviderFacade.serviceAccept(orderCode, accountCode);
+		}
+		throw new RuntimeException("Request params are invalid");
 
 	}
 }

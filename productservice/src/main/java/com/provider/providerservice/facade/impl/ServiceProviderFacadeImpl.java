@@ -59,35 +59,41 @@ public class ServiceProviderFacadeImpl implements ServiceProviderFacade {
 
 	@Override
 	public String serviceAccept(final String orderCode, final String accountCode) {
-		if (StringUtils.isNotEmpty(orderCode) && StringUtils.isNotEmpty(accountCode)) {
-			String url = USERREQUEST + "?orderNumber=" + orderCode + "&accountCode=" + accountCode;
-			LOG.info("url for service accept is" + url);
-			final String ServiceCode = orderCode.split(orderCode, '_')[1];
-			String json = "";
-			final String serviceUrl = "user/service?serviceCode=" + orderCode.split("_")[1];
-			LOG.info("url for service url is" + serviceUrl);
-			InstanceInfo instance = eurekaClient.getNextServerFromEureka("ORDERSERVICE", false);
-			InstanceInfo instanceUser = eurekaClient.getNextServerFromEureka("userservice", false);
-			restTemplate.postForEntity(instance.getHomePageUrl() + url, null, Void.class);
-			ResponseEntity<Void> response = restTemplate.postForEntity(instance.getHomePageUrl() + url, null,
-					Void.class);
-			ResponseEntity<ServiceDTO> jobDescription = restTemplate
-					.getForEntity(instanceUser.getHomePageUrl() + serviceUrl, ServiceDTO.class);
-			if (Objects.nonNull(jobDescription)) {
-				final ObjectMapper mapper = new ObjectMapper();
-				try {
-					json = mapper.writeValueAsString(jobDescription.getBody());
-				} catch (JsonProcessingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else {
-				LOG.info("response is null");
-				throw new NullPointerException("Job description is null");
+		validateaccount(accountCode);
+		String url = USERREQUEST + "?orderNumber=" + orderCode + "&accountCode=" + accountCode;
+		LOG.info("url for service accept is" + url);
+		final String ServiceCode = orderCode.split(orderCode, '_')[1];
+		String json = "";
+		final String serviceUrl = "user/service?serviceCode=" + orderCode.split("_")[1];
+		LOG.info("url for service url is" + serviceUrl);
+		InstanceInfo instance = eurekaClient.getNextServerFromEureka("ORDERSERVICE", false);
+		InstanceInfo instanceUser = eurekaClient.getNextServerFromEureka("userservice", false);
+		restTemplate.postForEntity(instance.getHomePageUrl() + url, null, Void.class);
+		ResponseEntity<Void> response = restTemplate.postForEntity(instance.getHomePageUrl() + url, null, Void.class);
+		ResponseEntity<ServiceDTO> jobDescription = restTemplate
+				.getForEntity(instanceUser.getHomePageUrl() + serviceUrl, ServiceDTO.class);
+		if (Objects.nonNull(jobDescription)) {
+			final ObjectMapper mapper = new ObjectMapper();
+			try {
+				json = mapper.writeValueAsString(jobDescription.getBody());
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			return json;
 		} else {
-			throw new NullPointerException("Order code or account code is empty");
+			LOG.info("response is null");
+			throw new NullPointerException("Job description is null");
+		}
+		return json;
+	}
+
+	private void validateaccount(String accountCode) {
+		if (StringUtils.isNotEmpty(accountCode)) {
+			final ServicerProviderData data = providerService.getDetails(accountCode);
+			if (!Objects.nonNull(data)) {
+				throw new NullPointerException("Account code is invalid");
+			}
+
 		}
 	}
 }

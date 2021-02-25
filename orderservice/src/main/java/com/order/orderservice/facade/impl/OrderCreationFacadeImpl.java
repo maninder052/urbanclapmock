@@ -52,7 +52,7 @@ public class OrderCreationFacadeImpl implements OrderCreationFacade {
 				orderCode = userId + "_" + serviceCode;
 				LOG.info("order code is"+ orderCode);
 				eventNotificationFacade.writeMessage("Request for service :" + serviceCode
-						+ " is created for orderCode :" + orderCode + " with respect to your area : " + area);
+						+ " is created for orderCode : " + orderCode + " with respect to your area : " + area);
 			}
 		}else {
 			throw new NullPointerException("Request params are null");

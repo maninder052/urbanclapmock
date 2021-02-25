@@ -39,4 +39,16 @@ public class UserServicesImpl implements UserServices{
 		return userDao.getServiceDetailInfo();
 	}
 
+	@Override
+	public boolean isValidService(String serviceCode, String area) {
+		final List<ServiceModel> services=userDao.getServiceDetailInfo();
+		for(ServiceModel service : services) {
+			if(service.getCode().equalsIgnoreCase(serviceCode) && service.getArea().equalsIgnoreCase(area)) {
+				return true;
+			}
+			
+		}
+		return false;
+	}
+
 }

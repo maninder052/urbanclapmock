@@ -11,4 +11,5 @@ public interface UserServices {
 	public List<UserModel> getUserInfo();
 	public boolean isValidUser(final String userId);
 	public List<ServiceModel> getServiceDetails();
+	public boolean isValidService(String serviceCode, String area);
 }

@@ -17,6 +17,9 @@ public class ServiceProviderDaoImpl implements ServiceProviderDao{
 		provider.add(new ServiceProviderModel("Kumar","$95", "Janakpuri","1120","good","Kumar01"));
 		provider.add(new ServiceProviderModel("irshaadu","$20", "Rohini","1123","good","irshaadu02"));
 		provider.add(new ServiceProviderModel("lala","$80", "Janakpuri","1125","good","lala01"));
+		provider.add(new ServiceProviderModel("aditya","$80", "Dwarka","1125","good","adi01"));
+		provider.add(new ServiceProviderModel("viswa","$80", "Dwarka","1125","good","roh01"));
+		
 	}
 	@Override
 	public List<ServiceProviderModel> getDetails() {

@@ -35,7 +35,7 @@ public class ProviderServicesImpl implements ProviderServices {
 			for (ServiceProviderModel provider : users) {
 				if (provider.getArea().equals(area)) {
 					providerData.add(new ServicerProviderData(provider.getArea() + "_" + provider.getPincode(),
-							provider.getName(), provider.getPrice(), provider.getArea()));
+							provider.getName(), provider.getPrice(), provider.getArea(),provider.getAccountCode()));
 				}
 			}
 			return providerData;
@@ -52,7 +52,7 @@ public class ProviderServicesImpl implements ProviderServices {
 				if (provider.getAccountCode().equals(accountCode)) {
 
 					ServicerProviderData data = new ServicerProviderData(provider.getAccountCode(), provider.getName(),
-							provider.getPrice(), provider.getArea());
+							provider.getPrice(), provider.getArea(),provider.getAccountCode());
 					return data;
 				}
 			}

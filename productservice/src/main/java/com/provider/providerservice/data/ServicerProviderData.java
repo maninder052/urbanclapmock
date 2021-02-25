@@ -5,13 +5,15 @@ public class ServicerProviderData {
 	private String name;
 	private String price;
 	private String area;
+	private String accountCode;
 	
-	public ServicerProviderData(String code, String name, String price, String area) {
+	public ServicerProviderData(String code, String name, String price, String area, String accountCode) {
 		super();
 		this.code = code;
 		this.name = name;
 		this.price = price;
 		this.area = area;
+		this.accountCode=accountCode;
 	}
 	public String getCode() {
 		return code;
@@ -36,6 +38,12 @@ public class ServicerProviderData {
 	}
 	public void setArea(String area) {
 		this.area = area;
+	}
+	public String getAccountCode() {
+		return accountCode;
+	}
+	public void setAccountCode(String accountCode) {
+		this.accountCode = accountCode;
 	}
 	
 	

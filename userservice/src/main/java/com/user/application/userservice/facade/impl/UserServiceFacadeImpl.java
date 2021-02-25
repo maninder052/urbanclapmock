@@ -17,7 +17,7 @@ import com.user.application.userservice.services.UserServices;
 public class UserServiceFacadeImpl implements UserServiceFacade {
 
 	private static final String ORDERSERVICEREQUEST = "order/event/publish";
-	
+
 	@Autowired
 	private EurekaClient eurekaClient;
 
@@ -29,17 +29,32 @@ public class UserServiceFacadeImpl implements UserServiceFacade {
 
 	@Override
 	public void generateRequest(ServiceRequestDTO service) {
-		if(Objects.nonNull(service)) {
-		final boolean isUserValid = validateUser(service);
-		if (isUserValid) {
-			String url = ORDERSERVICEREQUEST+"?userId="+service.getUserId()+"&area="+service.getArea()+"&serviceCode="+service.getServiceCode();
-			InstanceInfo instance = eurekaClient.getNextServerFromEureka("ORDERSERVICE", false);
-			ResponseEntity<Void> response = restTemplate.postForEntity(instance.getHomePageUrl() + url, null, Void.class);
+		if (Objects.nonNull(service)) {
+			final boolean isUserValid = validateUser(service);
+			final boolean isServiceValid = validateService(service);
+			if (isUserValid && isServiceValid) {
+				String url = ORDERSERVICEREQUEST + "?userId=" + service.getUserId() + "&area=" + service.getArea()
+						+ "&serviceCode=" + service.getServiceCode();
+				InstanceInfo instance = eurekaClient.getNextServerFromEureka("ORDERSERVICE", false);
+				ResponseEntity<Void> response = restTemplate.postForEntity(instance.getHomePageUrl() + url, null,
+						Void.class);
 
-		}}else {
-			throw new NullPointerException("serviceDTO is null");
+			}
+			else {
+				throw new RuntimeException("validation failed for your requested params");
+			}
+		} else {
+			throw new RuntimeException("serviceDTO params are missing");
 		}
 
+	}
+
+	private boolean validateService(ServiceRequestDTO service) {
+		if (Objects.nonNull(service) && Objects.nonNull(service.getServiceCode())
+				&& Objects.nonNull(service.getArea())) {
+			return userService.isValidService(service.getServiceCode(), service.getArea());
+		}
+		return false;
 	}
 
 	private boolean validateUser(ServiceRequestDTO serviceRequest) {
