@@ -37,6 +37,10 @@ public class OrderCreationFacadeImpl implements OrderCreationFacade {
 
 	private static final String PROVIDERDETAILSURL = "provider/details";
 
+	/*
+	 * order create
+	 * 
+	 */
 	@Override
 	public void createOrder(String userId, String area, String serviceCode) {
 		String orderCode = "";

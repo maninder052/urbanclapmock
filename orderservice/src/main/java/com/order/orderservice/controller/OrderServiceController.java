@@ -1,4 +1,5 @@
 package com.order.orderservice.controller;
+
 import javax.annotation.Resource;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -13,29 +14,27 @@ import com.netflix.discovery.EurekaClient;
 import com.order.ordersevice.facade.EventNotificationFacade;
 import com.order.ordersevice.facade.OrderCreationFacade;
 
-
 @RestController
-@RequestMapping(value="/order")
+@RequestMapping(value = "/order")
 public class OrderServiceController {
 	@Resource
 	private EurekaClient eurekaClient;
 
 	@Resource(name = "restTemp")
 	private RestTemplate restTemplate;
-	
+
 	@Resource
 	private EventNotificationFacade eventNotificationFacade;
-		
+
+	/*
+	 * use to publish the message
+	 */
 	@PostMapping("/publish")
-	public void writeMessageToTopic(@RequestParam("orderNumber") String orderNumber,@RequestParam("accountCode") String accountCode) {
-		
-		eventNotificationFacade.publishMessage(orderNumber,accountCode);
+	public void writeMessageToTopic(@RequestParam("orderNumber") String orderNumber,
+			@RequestParam("accountCode") String accountCode) {
+
+		eventNotificationFacade.publishMessage(orderNumber, accountCode);
 
 	}
-	
+
 }
-
-	
-	
-
-

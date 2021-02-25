@@ -36,6 +36,10 @@ public class EventNotificationController {
 
 	}
 
+	/*
+	 * Api to get notificationS
+	 * 
+	 */
 	@GetMapping("/notification")
 	public String getMessageForServiceProvider(@RequestParam("area") String area) {
 		if (StringUtils.isNotEmpty(area)) {
@@ -46,6 +50,10 @@ public class EventNotificationController {
 		}
 	}
 
+	/*
+	 * Api to get confirmation message
+	 * 
+	 */
 	@GetMapping("/confirmation")
 	public String getMessageForUser(@RequestParam("orderNumber") String orderNumber) {
 		if (StringUtils.isNotEmpty(orderNumber)) {

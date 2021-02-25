@@ -67,6 +67,10 @@ public class EventNotificationFacadeImpl implements EventNotificationFacade {
 		}
 	}
 
+	/*
+	 * get message for user
+	 * 
+	 */
 	@Override
 	public String getMessageForUser(final String orderNumber) {
 		final Boolean found = Arrays.asList(userNotification.split(" ")).contains(orderNumber);
@@ -79,6 +83,10 @@ public class EventNotificationFacadeImpl implements EventNotificationFacade {
 		}
 	}
 
+	/*
+	 * publish message
+	 * 
+	 */
 	@Override
 	public void publishMessage(final String orderNumber, final String accountCode) {
 		String json = "";
