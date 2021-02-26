@@ -35,6 +35,10 @@ public class ProviderServiceController {
 	@LoadBalanced
 	private RestTemplate restTemplate;
 
+	/*
+	 * Api to get prvoider details
+	 * 
+	 */
 	@RequestMapping(value = "/details", method = RequestMethod.GET)
 	public List<ServicerProviderData> getServiceProviderDetails(@RequestParam(required = true) final String area) {
 
@@ -47,6 +51,10 @@ public class ProviderServiceController {
 		return serviceProviderFacade.getProviderDetail(accountCode);
 	}
 
+	/*
+	 * Api to accept user request
+	 * 
+	 */
 	@PostMapping(value = "/service")
 	public String serviceAccept(@RequestParam(required = true) String orderCode,
 			@RequestParam(required = true) String accountCode) {

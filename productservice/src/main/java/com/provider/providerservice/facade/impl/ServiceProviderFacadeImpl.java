@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +17,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
-import com.order.orderservice.exception.RestResponseEntityExceptionHandler;
 import com.provider.providerservice.DTO.ServiceDTO;
 import com.provider.providerservice.data.ServicerProviderData;
 import com.provider.providerservice.facade.ServiceProviderFacade;
@@ -47,6 +45,10 @@ public class ServiceProviderFacadeImpl implements ServiceProviderFacade {
 
 	}
 
+	/*
+	 * mehtod to get provider details
+	 * 
+	 */
 	@Override
 	public ServicerProviderData getProviderDetail(String accountCode) {
 		if (StringUtils.isNotEmpty(accountCode)) {
@@ -57,6 +59,10 @@ public class ServiceProviderFacadeImpl implements ServiceProviderFacade {
 		}
 	}
 
+	/*
+	 * used rest template to fetch and accept the service request
+	 * 
+	 */
 	@Override
 	public String serviceAccept(final String orderCode, final String accountCode) {
 		validateaccount(accountCode);

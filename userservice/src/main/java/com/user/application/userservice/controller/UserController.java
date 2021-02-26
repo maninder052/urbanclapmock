@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.netflix.discovery.EurekaClient;
-import com.provider.providerservice.services.impl.ProviderServicesImpl;
 import com.user.application.userservice.DTO.ServiceRequestDTO;
 import com.user.application.userservice.data.ServiceData;
 import com.user.application.userservice.data.UserData;
@@ -43,11 +42,19 @@ public class UserController {
 	@Autowired
 	private UserServiceFacade userServiceFacade;
 
+	/*
+	 * Api to get user details
+	 * 
+	 */
 	@GetMapping(value = "/details")
 	public List<UserData> getUsersDetails() {
 		return userFacade.getUserDetails();
 	}
 
+	/*
+	 * Api to get services list
+	 * 
+	 */
 	@GetMapping(value = "/services/list")
 	public List<ServiceData> getServiceLists() {
 		return userFacade.getServiceDetails();

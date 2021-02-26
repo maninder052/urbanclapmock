@@ -27,6 +27,10 @@ public class UserServiceFacadeImpl implements UserServiceFacade {
 	@Autowired
 	private UserServices userService;
 
+	/*
+	 *method to generate request
+	 * 
+	 */
 	@Override
 	public void generateRequest(ServiceRequestDTO service) {
 		if (Objects.nonNull(service)) {
@@ -49,6 +53,10 @@ public class UserServiceFacadeImpl implements UserServiceFacade {
 
 	}
 
+	/*
+	 * validate service code and area
+	 * 
+	 */
 	private boolean validateService(ServiceRequestDTO service) {
 		if (Objects.nonNull(service) && Objects.nonNull(service.getServiceCode())
 				&& Objects.nonNull(service.getArea())) {
@@ -57,6 +65,10 @@ public class UserServiceFacadeImpl implements UserServiceFacade {
 		return false;
 	}
 
+	/*
+	 * validate user
+	 * 
+	 */
 	private boolean validateUser(ServiceRequestDTO serviceRequest) {
 		if (Objects.nonNull(serviceRequest) && Objects.nonNull(serviceRequest.getUserId())) {
 			return userService.isValidUser(serviceRequest.getUserId());
